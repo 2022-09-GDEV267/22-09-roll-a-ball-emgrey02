@@ -9,8 +9,11 @@ public class PlayerController : MonoBehaviour
 	// public, so we can control speed in Unity editor
   	public float speed = 0;
 
-    // create variable for count text
+    // create variables for count text
     public TextMeshProUGUI countText;
+
+    // create object for win text
+    public GameObject winTextObject;
 
     // Rigidbody component allows object to be controlled by physics
     private Rigidbody rb;
@@ -28,6 +31,7 @@ public class PlayerController : MonoBehaviour
         count = 0;
         // send it to UI
         SetCountText();
+        winTextObject.SetActive(false);
     }
 
     // arg comes from Unity's Input System, which we applied to the player object
@@ -46,6 +50,11 @@ public class PlayerController : MonoBehaviour
     void SetCountText()
     {
         countText.text = "Count: " + count.ToString();
+
+        if(count >= 12)
+        {
+            winTextObject.SetActive(true);
+        }
     }
 
     // FixedUpdate is recommended place to apply forces and change Rigidbody settings
