@@ -2,16 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
 	// public, so we can control speed in Unity editor
   	public float speed = 0;
 
-    // Rigidbody component allows object to be controlled by physics
-  	private Rigidbody rb;
+    // create variable for count text
+    public TextMeshProUGUI countText;
 
-  	private float movementX;
+    // Rigidbody component allows object to be controlled by physics
+    private Rigidbody rb;
+    private int count;
+    private float movementX;
   	private float movementY;
 
   	// Start is called before the first frame update
@@ -19,7 +23,12 @@ public class PlayerController : MonoBehaviour
   	{
         // rb holds reference to the player object's rigidbody component
 		rb = GetComponent<Rigidbody>();
-  	}
+
+        // this will be the # of pickups collected
+        count = 0;
+        // send it to UI
+        SetCountText();
+    }
 
     // arg comes from Unity's Input System, which we applied to the player object
     // this function triggers whenever it receives an input: pressing WASD or moving joystick
@@ -32,6 +41,12 @@ public class PlayerController : MonoBehaviour
     	movementX = movementVector.x;
     	movementY = movementVector.y;
   	}
+
+    // update count UI text to current count
+    void SetCountText()
+    {
+        countText.text = "Count: " + count.ToString();
+    }
 
     // FixedUpdate is recommended place to apply forces and change Rigidbody settings
     // FixedUpdate - 50 calls per second (frame independent) vs. Update - called every frame
@@ -54,6 +69,11 @@ public class PlayerController : MonoBehaviour
         {
 		    // disable pickup gameobject at collision so player doesn't bump into pickups
 		    other.gameObject.SetActive(false);
+
+            // player gets a point
+            count++;
+            //update UI
+            SetCountText();
         }
 	}
 }
