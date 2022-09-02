@@ -45,9 +45,15 @@ public class PlayerController : MonoBehaviour
 		rb.AddForce(movement * speed);
   	}
 
+    // called by Unity when player collides into another object
+    // arg is a reference to the object collider that's been touched
 	void OnTriggerEnter(Collider other)
 	{
-		// disable gameobject
-		other.gameObject.SetActive(false);
+        // only disable PickUp objects by checking it's tag
+        if(other.gameObject.CompareTag("PickUp"))
+        {
+		    // disable pickup gameobject at collision so player doesn't bump into pickups
+		    other.gameObject.SetActive(false);
+        }
 	}
 }
