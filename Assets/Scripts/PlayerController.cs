@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
 
         // this will be the # of pickups collected
         count = 0;
+
         // send it to UI
         SetCountText();
         winTextObject.SetActive(false);
@@ -51,7 +52,7 @@ public class PlayerController : MonoBehaviour
     {
         countText.text = "Count: " + count.ToString();
 
-        if(count >= 12)
+        if(count >= 33)
         {
             winTextObject.SetActive(true);
         }
@@ -74,14 +75,21 @@ public class PlayerController : MonoBehaviour
 	void OnTriggerEnter(Collider other)
 	{
         // only disable PickUp objects by checking it's tag
-        if(other.gameObject.CompareTag("PickUp"))
+        if(other.gameObject.CompareTag("PickUpSmall"))
         {
 		    // disable pickup gameobject at collision so player doesn't bump into pickups
 		    other.gameObject.SetActive(false);
 
             // player gets a point
             count++;
+
             //update UI
+            SetCountText();
+        }
+        else if(other.gameObject.CompareTag("PickUpLarge"))
+        {
+            other.gameObject.SetActive(false);
+            count = count + 5;
             SetCountText();
         }
 	}
